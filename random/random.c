@@ -113,7 +113,7 @@ static int __init random_init(void) {
         return -1;
     }
 
-    if (device_create(c1, NULL, first, NULL, "rng") == NULL) {
+    if (device_create(c1, NULL, first, NULL, "random") == NULL) {
         class_destroy(c1);
         unregister_chrdev_region(first, 1);
         return -1;
