@@ -11,8 +11,9 @@
 #include <linux/random.h>
 
 #include <crypto/rng.h>
-
+#define DEVICE_NAME "randomDevice"
 #define BUFFER_SIZE 131072 // Buffer size >= 2 ^ 17 is required
+
 
 static dev_t first;
 
@@ -104,7 +105,7 @@ static struct file_operations pugs_fops = {
 
 // Module init
 static int __init random_init(void) {
-    if (alloc_chrdev_region(&first, 0, 1, "Khang") < 0) {
+    if (alloc_chrdev_region(&first, 0, 3, DEVICE_NAME) < 0) {
         return -1;
     }
 
@@ -113,7 +114,7 @@ static int __init random_init(void) {
         return -1;
     }
 
-    if (device_create(c1, NULL, first, NULL, "random") == NULL) {
+    if (device_create(c1, NULL, first, NULL, DEVICE_NAME) == NULL) {
         class_destroy(c1);
         unregister_chrdev_region(first, 1);
         return -1;
